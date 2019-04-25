@@ -13,26 +13,26 @@ Dc = []
 #     print(d[0].shape, d[1].shape)
 #     return d
 
-def min_d(L, a, y, thetas):
+def min_d(L, a, y, thetas): #1 capa
     l = L -1
     d = [0] * l
     d[-1] = y - a[-1]
 
-    for i in reversed(range(l-1)):
-        d[i] = d[i+1] @ thetas[i+1] * a[i+1] * (1 - a[i+1])
+    d[0] = d[1] @ thetas[1] * a[1] * (1 - a[1])
     return d
 
-def may_d(L, a, y, thetas, D):
+def may_d(L, a, y, thetas, D): #1 capa
     l = L - 1
     Dc = [0] * l
 
     d = min_d(L, a, y, thetas)
-    for i in range(l):
-        Dc[i] = D[i] + a[i].T @ d[i]
+    Dc[0] = D[0] + a[0].T @ d[0]
+    Dc[1] = D[1] + a[1].T @ d[1]
 
     Df = []
-    for f in range(len(Dc)):
-        Df.extend(list(Dc[f].ravel()))
+    for f in (Dc):
+        Df.extend(f.ravel())
     D = np.asarray(Df)
     return D
+
 

@@ -6,17 +6,12 @@ import feed_forward
 
 
 theta1Size = (2, 2)
-theta2Size = (1, 2)
+theta2Size = (2, 2)
 
 
 def cost(h, y):
-    m, n = h.shape
-    j = -(1/m) * (y * np.log(h) + (1 - y) * np.log(1 - h)).sum()
+    j = (y * np.log(h) + np.nan_to_num((1 - y) * np.log(1 - h))).mean()
     return j
-
-
-H = np.array([[0.7], [0.9999], [0.000000000001]])
-Y = np.array([[1], [1], [0]])
 
 
 
@@ -26,4 +21,4 @@ def cost_and_gradient(x, y, theta, D):
     theta2 = theta[(theta1Size[0] * theta1Size[1]):].reshape(theta2Size)
 
     r, a, thetas = feed_forward.feed_forward(x, theta1, theta2)
-    return cost(x, y), may_d(L, a, y, thetas, D)
+    return cost(r, y), may_d(L, a, y, thetas, D)
