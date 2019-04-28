@@ -3,7 +3,7 @@ import math
 
 Dc = []
 
-# def min_d(L, a, y, thetas):
+# def min_d(L, a, y, thetas): # 2 layer
 #     l = L - 1
 #     d = [None] * l
 #     d[-1] = a[-1] - y
@@ -13,24 +13,31 @@ Dc = []
 #     print(d[0].shape, d[1].shape)
 #     return d
 
-def min_d(L, a, y, thetas): #1 capa
-    l = L -1
-    d = [0] * l
-    d[-1] = y - a[-1]
 
-    d[0] = d[1] @ thetas[1] * a[1] * (1 - a[1])
+def min_d(L, a, y, thetas):  # 4 layer
+    l = L - 1
+    d = [0] * l
+
+    d[2] = a[3] - y.T
+
+    d[1] = (thetas[2].T @ d[2]) * a[2] * (1 - a[2])
+    d[0] = (thetas[1].T @ d[1]) * a[1] * (1 - a[1])
+
     return d
 
-def may_d(L, a, y, thetas, D): #1 capa
+
+def may_d(L, a, y, thetas, D):  # 4 layer
     l = L - 1
     Dc = [0] * l
 
     d = min_d(L, a, y, thetas)
-    Dc[0] = D[0] + a[0].T @ d[0]
-    Dc[1] = D[1] + a[1].T @ d[1]
+
+    Dc[0] = D[0] + d[0] @ a[0].T
+    Dc[1] = D[1] + d[1] @ a[1].T
+    Dc[2] = D[2] + d[2] @ a[2].T
 
     Df = []
-    for f in (Dc):
+    for f in Dc:
         Df.extend(f.ravel())
     D = np.asarray(Df)
     return D
