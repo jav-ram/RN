@@ -43,30 +43,30 @@ def gradient_descent(
     while i < max_iter and abs(cost_and_gradient(X, y, theta, bias, Dw)[0]) > threshold:
         cost, gradient_w, gradient_b, gradient = cost_and_gradient(X, y, theta, bias, Dw)
 
-        theta -= alpha * gradient_w
-        bias += beta * gradient_b
+        theta = (
+            theta[0] + alpha * gradient_w[0],
+            theta[1] + alpha * gradient_w[1],
+            theta[2] + alpha * gradient_w[2]
+        )
+        bias = (
+            bias[0] + beta * gradient_b[0],
+            bias[1] + beta * gradient_b[1],
+            bias[2] + beta * gradient_b[2],
+        )
         # np.abs(cost) == np.inf or print(abs(cost), norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]))
-
-        theta_array = np.split(theta, [theta1Len, theta1Len + theta2Len, theta1Len + theta2Len + theta3Len])
-        t1 = theta_array[0].reshape(theta1Size)
-        t2 = theta_array[1].reshape(theta2Size)
-        t3 = theta_array[2].reshape(theta3Size)
-
-        b1 = bias[0]
-        b2 = bias[1]
-        b3 = bias[2]
 
         r1 = feed_forward_two(
             X,
-            t1,
-            t2,
-            t3,
-            b1,
-            b2,
-            b3,
+            theta[0],
+            theta[1],
+            theta[2],
+            bias[0],
+            bias[1],
+            bias[2],
         )
-        print(r1[0].T[1])
-        print(r1[0].T[1001])
+        # print()
+        print(r1[0].T)
+        # print(r1[0].T[1001])
 
         Dw = gradient_w
         i += 1

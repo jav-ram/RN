@@ -32,8 +32,8 @@ thetasLen = theta1Len + theta2Len + theta3Len
 
 
 def cost(h, y):
-    # j = (np.nan_to_num(y * np.log(h)) + np.nan_to_num((1 - y) * np.log(1 - h))).mean()
-    j = ((h - y) ** 2).mean() / 2
+    j = ((y * np.log(h)) + ((1 - y) * np.log(1 - h))).mean()
+    # j = ((h - y) ** 2).mean() / 2
     return j
 
 
@@ -73,9 +73,9 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
     L = 4
 
     theta_array = np.split(theta, [theta1Len, theta1Len + theta2Len, theta1Len + theta2Len + theta3Len])
-    theta1 = theta_array[0].reshape(theta1Size)
-    theta2 = theta_array[1].reshape(theta2Size)
-    theta3 = theta_array[2].reshape(theta3Size)
+    theta1 = theta[0]
+    theta2 = theta[1]
+    theta3 = theta[2]
 
     bias1 = bias[0]
     bias2 = bias[1]
@@ -85,21 +85,22 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
 
     bw = may_d(L, a, y, weights, Dw)
 
-    w_array = np.split(bw, [theta1Len, theta1Len + theta2Len, theta1Len + theta2Len + theta3Len])
-    w1 = w_array[0].reshape(theta1Size)
-    w2 = w_array[1].reshape(theta2Size)
-    w3 = w_array[2].reshape(theta3Size)
+    w1 = weights[0]
+    w2 = weights[1]
+    w3 = weights[2]
 
-    b1 = np.sum(w1, axis=0, keepdims=True).sum()
-    b2 = np.sum(w2, axis=0, keepdims=True).sum()
-    b3 = np.sum(w3, axis=0, keepdims=True).sum()
+    b1 = np.sum(w1, axis=0, keepdims=True).sum() / 6000
+    b2 = np.sum(w2, axis=0, keepdims=True).sum() / 6000
+    b3 = np.sum(w3, axis=0, keepdims=True).sum() / 6000
+
     bb = np.hstack((
         b1.ravel(),
         b2.ravel(),
         b3.ravel()
     ))
+
     theta_and_bias = np.hstack((
-        bw.ravel(),
+        np.asarray(bw).ravel(),
         bb.ravel()
     ))
 

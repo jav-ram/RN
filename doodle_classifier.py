@@ -46,13 +46,13 @@ b2 = random.random()
 b3 = random.random()
 
 theta, bias = gradient_descent(
-    X,
-    Y,
-    np.hstack((t1.ravel(), t2.ravel(), t3.ravel())),
-    np.hstack((b1, b2, b3)),
+    X[0].reshape((1, 784)),
+    Y[0].reshape((1, 6)),
+    (t1, t2, t3),
+    (b1, b2, b3),
     cost_and_gradient_two,
-    alpha=0.00001,
-    beta=0.0000001,
+    alpha=0.0000001,
+    beta=0.01,
     threshold=0.2,
     max_iter=10000
 )
