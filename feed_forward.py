@@ -4,6 +4,13 @@ import numpy as np
 def sigmoid(x):
     return 1. / (1. + np.exp(-x))
 
+def alpha(x):
+    if x > 0.5:
+        return 1
+    else:
+        return 0
+
+valpha = np.vectorize(alpha)
 
 def feed_forward(X, theta1, theta2, bias1, bias2):
     a1 = X.T
@@ -26,10 +33,10 @@ def feed_forward_two(X, theta1, theta2, theta3, bias1, bias2, bias3):
     a1 = X.T
 
     z2 = theta1 @ a1
-    a2 = sigmoid((z2 + bias1))
+    a2 = valpha(sigmoid((z2 + bias1)))
 
     z3 = theta2 @ a2
-    a3 = sigmoid((z3 + bias2))
+    a3 = valpha(sigmoid((z3 + bias2)))
 
     z4 = theta3 @ a3
     a4 = sigmoid((z4 + bias3))

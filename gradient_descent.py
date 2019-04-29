@@ -21,17 +21,6 @@ theta3Len = theta3Size[0] * theta3Size[1]
 thetasLen = theta1Len + theta2Len + theta3Len
 
 
-bias1Size = (16, 1)
-bias1Len = bias1Size[0] * bias1Size[1]
-
-bias2Size = (16, 1)
-bias2Len = bias2Size[0] * bias2Size[1]
-
-bias3Size = (6, 1)
-bias3Len = bias3Size[0] * bias3Size[1]
-
-biasLen = bias1Len + bias2Len + bias3Len
-
 
 v = np.array(PIL.Image.open('./out/Circle/1.jpg').convert("L")).ravel().reshape((1, 784)) / 255
 v1 = np.zeros((1, 784))
@@ -55,7 +44,7 @@ def gradient_descent(
         cost, gradient_w, gradient_b, gradient = cost_and_gradient(X, y, theta, bias, Dw)
 
         theta -= alpha * gradient_w
-        bias -= beta * gradient_b
+        bias += beta * gradient_b
         # np.abs(cost) == np.inf or print(abs(cost), norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]))
 
         theta_array = np.split(theta, [theta1Len, theta1Len + theta2Len, theta1Len + theta2Len + theta3Len])
@@ -63,10 +52,10 @@ def gradient_descent(
         t2 = theta_array[1].reshape(theta2Size)
         t3 = theta_array[2].reshape(theta3Size)
 
-        bias_array = np.split(bias, [bias1Len, bias1Len + bias2Len, bias1Len + bias2Len + bias3Len])
-        b1 = bias_array[0].reshape(bias1Size)
-        b2 = bias_array[1].reshape(bias2Size)
-        b3 = bias_array[2].reshape(bias3Size)
+        b1 = bias[0]
+        b2 = bias[1]
+        b3 = bias[2]
+
         r1 = feed_forward_two(
             X,
             t1,
@@ -75,8 +64,9 @@ def gradient_descent(
             b1,
             b2,
             b3,
-        )[0].T[1000]
-        print(r1)
+        )
+        print(r1[0].T[1])
+        print(r1[0].T[1001])
 
         Dw = gradient_w
         i += 1

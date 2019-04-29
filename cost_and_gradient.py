@@ -31,18 +31,6 @@ theta3Len = theta3Size[0] * theta3Size[1]
 thetasLen = theta1Len + theta2Len + theta3Len
 
 
-bias1Size = (16, 1)
-bias1Len = bias1Size[0] * bias1Size[1]
-
-bias2Size = (16, 1)
-bias2Len = bias2Size[0] * bias2Size[1]
-
-bias3Size = (6, 1)
-bias3Len = bias3Size[0] * bias3Size[1]
-
-biasLen = bias1Len + bias2Len + bias3Len
-
-
 def cost(h, y):
     # j = (np.nan_to_num(y * np.log(h)) + np.nan_to_num((1 - y) * np.log(1 - h))).mean()
     j = ((h - y) ** 2).mean() / 2
@@ -55,8 +43,8 @@ def cost_and_gradient(x, y, theta, bias, Dw):
     theta1 = theta[:(theta1Size[0] * theta1Size[1])].reshape(theta1Size)
     theta2 = theta[(theta1Size[0] * theta1Size[1]):].reshape(theta2Size)
 
-    bias1 = bias[:(bias1Size[0] * bias1Size[1])].reshape(bias1Size)
-    bias2 = bias[(bias1Size[0] * bias1Size[1]):].reshape(bias2Size)
+    bias1 = bias[0]
+    bias2 = bias[1]
 
     r, a, weights, biases = feed_forward.feed_forward(x, theta1, theta2, bias1, bias2)
 
@@ -89,10 +77,9 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
     theta2 = theta_array[1].reshape(theta2Size)
     theta3 = theta_array[2].reshape(theta3Size)
 
-    bias_array = np.split(bias, [bias1Len, bias1Len + bias2Len, bias1Len + bias2Len + bias3Len])
-    bias1 = bias_array[0].reshape(bias1Size)
-    bias2 = bias_array[1].reshape(bias2Size)
-    bias3 = bias_array[2].reshape(bias3Size)
+    bias1 = bias[0]
+    bias2 = bias[1]
+    bias3 = bias[2]
 
     r, a, weights, biases = feed_forward.feed_forward_two(x, theta1, theta2, theta3, bias1, bias2, bias3)
 
@@ -103,9 +90,9 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
     w2 = w_array[1].reshape(theta2Size)
     w3 = w_array[2].reshape(theta3Size)
 
-    b1 = np.sum(w1.T, axis=0, keepdims=True)
-    b2 = np.sum(w2.T, axis=0, keepdims=True)
-    b3 = np.sum(w3.T, axis=0, keepdims=True)
+    b1 = np.sum(w1, axis=0, keepdims=True).sum()
+    b2 = np.sum(w2, axis=0, keepdims=True).sum()
+    b3 = np.sum(w3, axis=0, keepdims=True).sum()
     bb = np.hstack((
         b1.ravel(),
         b2.ravel(),

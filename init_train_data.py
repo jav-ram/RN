@@ -56,30 +56,30 @@ def get_all_y_category(sample, category, classes=10):
 
 def init_sample(features, sample):
     circle_sample_names = random.choices(os.listdir('./out/Circle/'), k=sample)
-    # house_sample_names = random.choices(os.listdir('./out/House/'), k=sample)
-    # smile_sample_names = random.choices(os.listdir('./out/Smiley Face/'), k=sample)
-    # square_sample_names = random.choices(os.listdir('./out/Square/'), k=sample)
-    # tree_sample_names = random.choices(os.listdir('./out/Tree/'), k=sample)
-    # triangle_sample_names = random.choices(os.listdir('./out/Triangle/'), k=sample)
+    house_sample_names = random.choices(os.listdir('./out/House/'), k=sample)
+    smile_sample_names = random.choices(os.listdir('./out/Smiley Face/'), k=sample)
+    square_sample_names = random.choices(os.listdir('./out/Square/'), k=sample)
+    tree_sample_names = random.choices(os.listdir('./out/Tree/'), k=sample)
+    triangle_sample_names = random.choices(os.listdir('./out/Triangle/'), k=sample)
 
     X = np.vstack((
         name_to_array('./out/Circle/', circle_sample_names),
-        # name_to_array('./out/House/', house_sample_names),
-        # name_to_array('./out/Smiley Face/', smile_sample_names),
-        # name_to_array('./out/Square/', square_sample_names),
-        # name_to_array('./out/Tree/', tree_sample_names),
-        # name_to_array('./out/Triangle/', triangle_sample_names)
+        name_to_array('./out/House/', house_sample_names),
+        name_to_array('./out/Smiley Face/', smile_sample_names),
+        name_to_array('./out/Square/', square_sample_names),
+        name_to_array('./out/Tree/', tree_sample_names),
+        name_to_array('./out/Triangle/', triangle_sample_names)
     ))
 
     print(X.shape)
 
     Y = np.vstack((
         get_all_y_category(sample, CIRCLE, 6),
-        # get_all_y_category(sample, HOUSE, 6),
-        # get_all_y_category(sample, SMILE, 6),
-        # get_all_y_category(sample, SQUARE, 6),
-        # get_all_y_category(sample, TREE, 6),
-        # get_all_y_category(sample, TRIANGLE, 6)
+        get_all_y_category(sample, HOUSE, 6),
+        get_all_y_category(sample, SMILE, 6),
+        get_all_y_category(sample, SQUARE, 6),
+        get_all_y_category(sample, TREE, 6),
+        get_all_y_category(sample, TRIANGLE, 6)
     ))
 
     return X, Y
