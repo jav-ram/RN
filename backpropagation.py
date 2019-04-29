@@ -15,15 +15,16 @@ Dc = []
 
 
 def min_d(L, a, y, thetas):  # 4 layer
-    l = L - 1
+    l = L
     d = [0] * l
 
-    d[2] = y.T - a[3]
+    d[3] = y.T - a[3]
 
-    d[1] = np.matmul(thetas[2].T, d[2]) * a[2] * (1 - a[2])
-    d[0] = np.matmul(thetas[1].T, d[1]) * a[1] * (1 - a[1])
+    d[2] = np.matmul(thetas[2].T, d[3]) * a[2] * (1 - a[2])
+    d[1] = np.matmul(thetas[1].T, d[2]) * (1 / (np.cosh(a[1]))**2) * -1
+    d[0] = np.matmul(thetas[0].T, d[1]) * (1 / (np.cosh(a[0]))**2) * -1
 
-    return d
+    return (d[0], d[1], d[2], d[3])
 
 
 def may_d(L, a, y, thetas, D):  # 4 layer
@@ -32,9 +33,9 @@ def may_d(L, a, y, thetas, D):  # 4 layer
 
     d = min_d(L, a, y, thetas)
 
-    Dc[0] = (D[0] + np.matmul(d[0], a[0].T))
-    Dc[1] = (D[1] + np.matmul(d[1], a[1].T) + thetas[1])
-    Dc[2] = (D[2] + np.matmul(d[2], a[2].T) + thetas[2])
+    Dc[0] = (D[0] / 6000 + np.matmul(d[1], a[0].T))
+    Dc[1] = (D[1] / 6000 + np.matmul(d[2], a[1].T))
+    Dc[2] = (D[2] / 6000 + np.matmul(d[3], a[2].T))
 
     return (Dc[0], Dc[1], Dc[2])
 

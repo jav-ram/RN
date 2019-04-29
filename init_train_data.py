@@ -31,8 +31,8 @@ valpha = np.vectorize(alpha)
 def name_to_array(directory, names):
     a = []
     for n in names:
-        b = np.array(PIL.Image.open(directory + n).convert("L")).ravel()
-        a.append(valpha(b))
+        b = np.array(PIL.Image.open(directory + n).convert("L")).ravel() / 256
+        a.append(b)
 
     return np.asarray(a)#.astype(np.float128)
 
@@ -49,6 +49,7 @@ def get_all_y_category(sample, category, classes=10):
     for i in range(0, sample):
         y = get_y(category, classes)
         Y.append(y)
+
 
     Y = np.asarray(Y).reshape((sample, classes))
     return Y

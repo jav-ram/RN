@@ -2,15 +2,32 @@ import numpy as np
 
 
 def sigmoid(x):
-    return 1. / (1. + np.exp(-0.01 * x))
+    return 1. / (1. + np.exp(-x))
+
+
+def softmax(x):
+    return np.log(1. + np.exp(x))
+
+
+def relu(x):
+    return x * (x > 0)
+
+
+def guassian(x):
+    return np.exp((-1) * x**2)
+
 
 def alpha(x):
-    if x > 0.5:
+    if x >= 0.96:
         return 1
     else:
         return 0
 
+
 valpha = np.vectorize(alpha)
+
+vsigmoid = np.vectorize(sigmoid)
+
 
 def feed_forward(X, theta1, theta2, bias1, bias2):
     a1 = X.T
@@ -29,21 +46,30 @@ def feed_forward(X, theta1, theta2, bias1, bias2):
     return a3, a, thetas, biases
 
 
-def feed_forward_two(X, theta1, theta2, theta3, bias1, bias2, bias3):
+def feed_forward_two(X, theta1, theta2, theta3, bias1, bias2, debug=False):
     a1 = X.T
 
+    # z2 = np.matmul(theta1, a1)
+    # a2 = vsigmoid((z2 - z2.min()) / 50000)
+    #
+    # z3 = np.matmul(theta2, a2)
+    # a3 = vsigmoid(z3 - z3.min() + bias1)
+    #
+    # z4 = np.matmul(theta3, a3)
+    # a4 = vsigmoid(z4 - z4.min() + bias2)
+
     z2 = np.matmul(theta1, a1)
-    a2 = valpha(sigmoid((z2 + bias1)))
+    a2 = np.tanh(z2 / 50000)
 
     z3 = np.matmul(theta2, a2)
-    a3 = valpha(sigmoid((z3 + bias2)))
+    a3 = np.tanh(z3 + bias1)
 
     z4 = np.matmul(theta3, a3)
-    a4 = sigmoid((z4 + bias3))
+    a4 = sigmoid(z4 + bias2)
 
     a = (a1, a2, a3, a4)
     thetas = (theta1, theta2, theta3)
-    biases = (bias1, bias2, bias3)
+    biases = (bias1, bias2)
 
     return a4, a, thetas, biases
 

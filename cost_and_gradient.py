@@ -19,20 +19,21 @@ import feed_forward
 # biasLen = bias1Len * bias2Len
 
 
-theta1Size = (16, 784)
+theta1Size = (14, 784)
 theta1Len = theta1Size[0] * theta1Size[1]
 
-theta2Size = (16, 16)
+theta2Size = (10, 14)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (6, 16)
+theta3Size = (6, 10)
 theta3Len = theta3Size[0] * theta3Size[1]
 
 thetasLen = theta1Len + theta2Len + theta3Len
 
 
 def cost(h, y):
-    j = ((y * np.log(h)) + ((1 - y) * np.log(1 - h))).mean()
+    m, n = y.shape
+    j = (np.nan_to_num(y * np.log(h)) + np.nan_to_num((1 - y) * np.log(1 - h))).sum() / m
     # j = ((h - y) ** 2).mean() / 2
     return j
 
@@ -79,9 +80,8 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
 
     bias1 = bias[0]
     bias2 = bias[1]
-    bias3 = bias[2]
 
-    r, a, weights, biases = feed_forward.feed_forward_two(x, theta1, theta2, theta3, bias1, bias2, bias3)
+    r, a, weights, biases = feed_forward.feed_forward_two(x, theta1, theta2, theta3, bias1, bias2)
 
     bw = may_d(L, a, y, weights, Dw)
 
@@ -89,19 +89,19 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
     w2 = weights[1]
     w3 = weights[2]
 
-    b1 = np.sum(w1, axis=0, keepdims=True).sum() / 6000
-    b2 = np.sum(w2, axis=0, keepdims=True).sum() / 6000
-    b3 = np.sum(w3, axis=0, keepdims=True).sum() / 6000
+    b1 = np.sum(bw[1], axis=0, keepdims=True).sum() / -6000
+    b2 = np.sum(bw[2], axis=0, keepdims=True).sum() / -6000
 
     bb = np.hstack((
         b1.ravel(),
         b2.ravel(),
-        b3.ravel()
     ))
 
     theta_and_bias = np.hstack((
-        np.asarray(bw).ravel(),
-        bb.ravel()
+        w1.ravel(),
+        w2.ravel(),
+        w3.ravel(),
+        bb.ravel(),
     ))
 
     return cost(r.T, y), bw, bb, theta_and_bias
