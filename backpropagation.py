@@ -18,7 +18,7 @@ def min_d(L, a, y, thetas):  # 4 layer
     l = L - 1
     d = [0] * l
 
-    d[2] = a[3] - y.T
+    d[2] = y.T - a[3]
 
     d[1] = (thetas[2].T @ d[2]) * a[2] * (1 - a[2])
     d[0] = (thetas[1].T @ d[1]) * a[1] * (1 - a[1])
@@ -32,14 +32,16 @@ def may_d(L, a, y, thetas, D):  # 4 layer
 
     d = min_d(L, a, y, thetas)
 
-    Dc[0] = D[0] + d[0] @ a[0].T
-    Dc[1] = D[1] + d[1] @ a[1].T
-    Dc[2] = D[2] + d[2] @ a[2].T
+    Dc[0] = ((D[0] + d[0] @ a[0].T) / 3000)
+    Dc[1] = ((D[1] + d[1] @ a[1].T + thetas[1]) / 3000)
+    Dc[2] = ((D[2] + d[2] @ a[2].T + thetas[2]) / 3000)
 
-    Df = []
-    for f in Dc:
-        Df.extend(f.ravel())
-    D = np.asarray(Df)
-    return D
+    D = np.hstack((
+        Dc[0].ravel(),
+        Dc[1].ravel(),
+        Dc[2].ravel(),
+    ))
+
+    return D * -1
 
 

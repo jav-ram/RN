@@ -1,5 +1,6 @@
 import numpy as np
-import math
+from PIL import Image
+import PIL.ImageOps
 
 from backpropagation import may_d
 import feed_forward
@@ -43,8 +44,8 @@ biasLen = bias1Len + bias2Len + bias3Len
 
 
 def cost(h, y):
-    j = ((y * np.log(h)) + np.nan_to_num((1 - y) * np.log(1 - h))).mean()
-    # j = ((h - y) ** 2).mean() / 2
+    # j = (np.nan_to_num(y * np.log(h)) + np.nan_to_num((1 - y) * np.log(1 - h))).mean()
+    j = ((h - y) ** 2).mean() / 2
     return j
 
 
@@ -77,7 +78,7 @@ def cost_and_gradient(x, y, theta, bias, Dw):
         bb
     ))
 
-    return cost(r, y), bw, bb, theta_and_bias
+
 
 
 def cost_and_gradient_two(x, y, theta, bias, Dw):
@@ -105,16 +106,14 @@ def cost_and_gradient_two(x, y, theta, bias, Dw):
     b1 = np.sum(w1.T, axis=0, keepdims=True)
     b2 = np.sum(w2.T, axis=0, keepdims=True)
     b3 = np.sum(w3.T, axis=0, keepdims=True)
-
     bb = np.hstack((
         b1.ravel(),
         b2.ravel(),
         b3.ravel()
     ))
-
     theta_and_bias = np.hstack((
-        bw,
-        bb
+        bw.ravel(),
+        bb.ravel()
     ))
 
     return cost(r.T, y), bw, bb, theta_and_bias

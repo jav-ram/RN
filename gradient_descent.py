@@ -1,5 +1,4 @@
 import numpy as np
-import math
 from PIL import Image
 import PIL.ImageOps
 
@@ -44,38 +43,42 @@ def gradient_descent(
         bias_0,
         cost_and_gradient,
         alpha=0.0000000000001,
-        threshold=0.1,
+        beta=0.0000000001,
+        threshold=1000000,
         max_iter=1000000):
     theta, bias, last_cost, i = theta_0, bias_0, 999999999999, 0
     Dw = [np.zeros(theta1Size), np.zeros(theta2Size), np.zeros(theta3Size)]
     Db = [0.0] * 38
-    while i < max_iter and norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]) > threshold:
+    # alpha = np.random.uniform(low=0, high=alpha, size=thetasLen)
+    # beta = np.random.uniform(low=0, high=beta, size=biasLen)
+    while i < max_iter and abs(cost_and_gradient(X, y, theta, bias, Dw)[0]) > threshold:
         cost, gradient_w, gradient_b, gradient = cost_and_gradient(X, y, theta, bias, Dw)
-        theta -= alpha * gradient_w
-        bias -= alpha * gradient_b
 
-        Dw = gradient_w
-        #
+        theta -= alpha * gradient_w
+        bias -= beta * gradient_b
         # np.abs(cost) == np.inf or print(abs(cost), norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]))
 
-        # theta_array = np.split(theta, [theta1Len, theta1Len + theta2Len, theta1Len + theta2Len + theta3Len])
-        # t1 = theta_array[0].reshape(theta1Size)
-        # t2 = theta_array[1].reshape(theta2Size)
-        # t3 = theta_array[2].reshape(theta3Size)
+        theta_array = np.split(theta, [theta1Len, theta1Len + theta2Len, theta1Len + theta2Len + theta3Len])
+        t1 = theta_array[0].reshape(theta1Size)
+        t2 = theta_array[1].reshape(theta2Size)
+        t3 = theta_array[2].reshape(theta3Size)
 
         bias_array = np.split(bias, [bias1Len, bias1Len + bias2Len, bias1Len + bias2Len + bias3Len])
         b1 = bias_array[0].reshape(bias1Size)
         b2 = bias_array[1].reshape(bias2Size)
         b3 = bias_array[2].reshape(bias3Size)
-        print(feed_forward_two(
-                X[0],
-                t1,
-                t2,
-                t3,
-                b1,
-                b2,
-                b3,
-            )[0].T)
+        r1 = feed_forward_two(
+            X,
+            t1,
+            t2,
+            t3,
+            b1,
+            b2,
+            b3,
+        )[0].T[1000]
+        print(r1)
+
+        Dw = gradient_w
         i += 1
     print(abs(cost_and_gradient(X, y, theta, bias, Dw)[0]))
     return theta, bias
