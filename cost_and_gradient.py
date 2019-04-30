@@ -25,7 +25,7 @@ theta1Len = theta1Size[0] * theta1Size[1]
 theta2Size = (10, 14)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (6, 10)
+theta3Size = (10, 10)
 theta3Len = theta3Size[0] * theta3Size[1]
 
 thetasLen = theta1Len + theta2Len + theta3Len

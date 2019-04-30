@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 from PIL import Image
 import PIL.ImageOps
 
@@ -9,15 +10,18 @@ from gradient_descent import gradient_descent
 from cost_and_gradient import cost_and_gradient_two
 
 # Load Variables set
-theta = np.load('./dw.npy')
-bias = np.load('./db.npy')
+theta = np.load('./dwv1.npy')
+bias = np.load('./dbv1.npy')
 
 # Load Test
-img = np.array(PIL.Image.open('./out/Triangle/12.jpg').convert("L")).ravel().reshape((1, 784)).astype(np.float) / 255
-# v1 = np.array(PIL.Image.open('./out/Circle/2.jpg').convert("L")).ravel().reshape((1, 784)).astype(np.float) / 255
+k = np.asarray(cv2.imread('./out/MickeyMouse/1.bmp')).ravel()
+
+if k.shape[0] != 784:
+    k = cv2.resize(k, (int(28), int(28)))
+b = (np.array(k).ravel() / 256).reshape(1, 784)
 
 r = feed_forward_two(
-    img,
+    b,
     theta[0],
     theta[1],
     theta[2],

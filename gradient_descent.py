@@ -15,7 +15,7 @@ theta1Len = theta1Size[0] * theta1Size[1]
 theta2Size = (10, 14)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (6, 10)
+theta3Size = (10, 10)
 theta3Len = theta3Size[0] * theta3Size[1]
 
 thetasLen = theta1Len + theta2Len + theta3Len
@@ -52,22 +52,22 @@ def gradient_descent(
             bias[1] - beta * gradient_b[1],
         )
 
-        r1 = feed_forward_two(
-            np.vstack((X, np.zeros((1, 784)))),
-            theta[0],
-            theta[1],
-            theta[2],
-            bias[0],
-            bias[1],
-        )
-        # print(r1[0].T[0])
-        print()
-        print(np.argmax(r1[0].T[0].T))
-        print(np.argmax(r1[0].T[1001].T))
-        print(np.argmax(r1[0].T[2002].T))
-        print(np.argmax(r1[0].T[3003].T))
-        print(np.argmax(r1[0].T[4003].T))
-        print(np.argmax(r1[0].T[5003].T))
+        # r1 = feed_forward_two(
+        #     X,
+        #     theta[0],
+        #     theta[1],
+        #     theta[2],
+        #     bias[0],
+        #     bias[1],
+        # )
+        # # print(r1[0].T[0])
+        # print()
+        # print(np.argmax(r1[0].T[0].T))
+        # print(np.argmax(r1[0].T[1001].T))
+        # print(np.argmax(r1[0].T[2002].T))
+        # print(np.argmax(r1[0].T[3003].T))
+        # print(np.argmax(r1[0].T[4003].T))
+        # print(np.argmax(r1[0].T[5003].T))
 
         np.abs(cost) == np.inf or print(abs(cost), norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]))
 

@@ -59,7 +59,7 @@ def feed_forward_two(X, theta1, theta2, theta3, bias1, bias2, debug=False):
     # a4 = vsigmoid(z4 - z4.min() + bias2)
 
     z2 = np.matmul(theta1, a1)
-    a2 = np.tanh(z2 / 50000)
+    a2 = np.tanh(z2 / 500000)
 
     z3 = np.matmul(theta2, a2)
     a3 = np.tanh(z3 + bias1)
