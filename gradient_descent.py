@@ -9,16 +9,19 @@ from feed_forward import feed_forward_two
 norm = lambda v: ((v ** 2.0).sum()) ** 0.5
 
 
-theta1Size = (14, 784)
+theta1Size = (16, 784)
 theta1Len = theta1Size[0] * theta1Size[1]
 
-theta2Size = (10, 14)
+theta2Size = (16, 16)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (10, 10)
+theta3Size = (10, 16)
 theta3Len = theta3Size[0] * theta3Size[1]
 
-thetasLen = theta1Len + theta2Len + theta3Len
+theta4Size = (10, 10)
+theta4Len = theta4Size[0] * theta4Size[1]
+
+thetasLen = theta1Len + theta2Len + theta3Len + theta4Len
 
 
 
@@ -32,42 +35,55 @@ def gradient_descent(
         bias_0,
         cost_and_gradient,
         alpha=0.0000000000001,
-        beta=0.0000000001,
+        beta=0.000000001,
         threshold=1000000,
         max_iter=1000000):
     theta, bias, last_cost, i = theta_0, bias_0, 999999999999, 0
-    Dw = [np.zeros(theta1Size), np.zeros(theta2Size), np.zeros(theta3Size)]
+    Dw = [np.zeros(theta1Size), np.zeros(theta2Size), np.zeros(theta3Size), np.zeros(theta4Size)]
     # alpha = np.random.uniform(low=0, high=alpha, size=thetasLen)
     # beta = np.random.uniform(low=0, high=beta, size=biasLen)
     while i < max_iter and abs(cost_and_gradient(X, y, theta, bias, Dw)[0]) > threshold:
         cost, gradient_w, gradient_b, gradient = cost_and_gradient(X, y, theta, bias, Dw)
 
         theta = (
-            theta[0] + alpha * gradient_w[0],
-            theta[1] + alpha * gradient_w[1],
-            theta[2] + alpha * gradient_w[2]
-        )
-        bias = (
-            bias[0] - beta * gradient_b[0],
-            bias[1] - beta * gradient_b[1],
+            theta[0] - alpha * gradient_w[0],
+            theta[1] - alpha * gradient_w[1],
+            theta[2] - alpha * gradient_w[2],
+            theta[3] - alpha * gradient_w[3],
         )
 
-        # r1 = feed_forward_two(
-        #     X,
-        #     theta[0],
-        #     theta[1],
-        #     theta[2],
-        #     bias[0],
-        #     bias[1],
+        bias = gradient_b
+
+        # bias = (
+        #     gradient_b[0],
+        #     gradient_b[1],
+        #     gradient_b[2],
+        #     gradient_b[3],
         # )
-        # # print(r1[0].T[0])
-        # print()
-        # print(np.argmax(r1[0].T[0].T))
-        # print(np.argmax(r1[0].T[1001].T))
-        # print(np.argmax(r1[0].T[2002].T))
-        # print(np.argmax(r1[0].T[3003].T))
-        # print(np.argmax(r1[0].T[4003].T))
-        # print(np.argmax(r1[0].T[5003].T))
+
+        r1 = feed_forward_two(
+            np.vstack((
+                X[0],
+                X[1001],
+                X[2002],
+                X[3003],
+                X[4003],
+            )),
+            theta[0],
+            theta[1],
+            theta[2],
+            theta[3],
+            bias[0],
+            bias[1],
+            bias[2],
+            bias[3],
+        )
+        # print(r1[0].T[0])
+        print()
+        print((r1[0].T[0].T))
+        print((r1[0].T[1].T))
+        print((r1[0].T[2].T))
+        print((r1[0].T[3].T))
 
         np.abs(cost) == np.inf or print(abs(cost), norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]))
 

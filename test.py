@@ -14,7 +14,7 @@ theta = np.load('./dwv1.npy')
 bias = np.load('./dbv1.npy')
 
 # Load Test
-k = np.asarray(cv2.imread('./out/MickeyMouse/1.bmp')).ravel()
+k = np.asarray(cv2.imread('./out/House/1.jpg')).ravel()
 
 if k.shape[0] != 784:
     k = cv2.resize(k, (int(28), int(28)))

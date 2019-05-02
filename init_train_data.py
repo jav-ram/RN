@@ -36,7 +36,7 @@ def name_to_array(directory, names):
 
         if k.shape[0] != 784:
             k = cv2.resize(k, (int(28), int(28)))
-        b = np.array(k).ravel() / 256
+        b = (255 - np.array(k).ravel()) / 255
         a.append(b)
 
     return np.asarray(a)#.astype(np.float128)

@@ -12,24 +12,30 @@ from cost_and_gradient import cost_and_gradient_two
 X = np.load('./train/Xv1.npy')
 Y = np.load('./train/Yv1.npy')
 
-theta1Size = (14, 784)
+theta1Size = (16, 784)
 theta1Len = theta1Size[0] * theta1Size[1]
 
-theta2Size = (10, 14)
+theta2Size = (16, 16)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (10, 10)
+theta3Size = (10, 16)
 theta3Len = theta3Size[0] * theta3Size[1]
 
-thetasLen = theta1Len + theta2Len + theta3Len
+theta4Size = (10, 10)
+theta4Len = theta4Size[0] * theta4Size[1]
+
+thetasLen = theta1Len + theta2Len + theta3Len + theta4Len
 
 # Thetas
 t1 = np.random.uniform(low=0, high=1, size=theta1Len).reshape(theta1Size)
 t2 = np.random.uniform(low=0, high=1, size=theta2Len).reshape(theta2Size)
 t3 = np.random.uniform(low=0, high=1, size=theta3Len).reshape(theta3Size)
+t4 = np.random.uniform(low=0, high=1, size=theta4Len).reshape(theta4Size)
 # Bias
-b1 = random.random()
-b2 = random.random()
+b1 = np.ones(16).reshape((16, 1))
+b2 = np.ones(16).reshape((16, 1))
+b3 = np.ones(10).reshape((10, 1))
+b4 = np.ones(10).reshape((10, 1))
 
 # theta = np.load('dw.npy')
 # bias = np.load('db.npy')
@@ -48,12 +54,12 @@ b2 = random.random()
 theta, bias = gradient_descent(
     X,
     Y,
-    (t1, t2, t3),
-    (b1, b2),
+    (t1, t2, t3, t4),
+    (b1, b2, b3, b4),
     cost_and_gradient_two,
-    alpha=0.0001,
-    beta=0.05,
-    threshold=5,
+    alpha=0.1,
+    beta=0.00000001,
+    threshold=0.1,
     max_iter=10000
 )
 
