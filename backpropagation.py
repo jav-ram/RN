@@ -13,6 +13,11 @@ Dc = []
 #     print(d[0].shape, d[1].shape)
 #     return d
 
+def relu_prime(x):
+    if x < 0:
+        return 0
+    else:
+        return 1
 
 
 def min_d(L, a, y, thetas):  # 4 layer
@@ -35,10 +40,10 @@ def may_d(L, a, y, thetas, D):  # 4 layer
 
     d = min_d(L, a, y, thetas)
 
-    Dc[0] = (D[0] + np.matmul(d[1], a[0].T)) / 10000
-    Dc[1] = (D[1] + np.matmul(d[2], a[1].T)) / 10000
-    Dc[2] = (D[2] + np.matmul(d[3], a[2].T)) / 10000
-    Dc[3] = (D[3] + np.matmul(d[4], a[3].T)) / 10000
+    Dc[0] = (D[0] + np.matmul(d[1], a[0].T)) / 1000
+    Dc[1] = (D[1] + np.matmul(d[2], a[1].T)) / 1000
+    Dc[2] = (D[2] + np.matmul(d[3], a[2].T)) / 1000
+    Dc[3] = (D[3] + np.matmul(d[4], a[3].T)) / 1000
 
     return (Dc[0], Dc[1], Dc[2], Dc[3])
 

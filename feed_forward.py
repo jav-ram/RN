@@ -28,6 +28,7 @@ def alpha(x):
 valpha = np.vectorize(alpha)
 
 vsigmoid = np.vectorize(sigmoid)
+vrelu = np.vectorize(relu)
 
 
 def feed_forward(X, theta1, theta2, bias1, bias2):
@@ -52,16 +53,16 @@ def feed_forward_two(X, theta1, theta2, theta3, theta4, bias1, bias2, bias3, bia
 
     z2 = theta1 @ a1 + bias1
 
-    a2 = vsigmoid((z2 - z2.std()) / z2.mean())
+    a2 = vrelu((z2 - z2.std()) / z2.mean())
 
     z3 = theta2 @ a2 + bias2
-    a3 = vsigmoid((z3 - z3.std()) / z3.mean())
+    a3 = sigmoid((z3 - z3.std()) / z3.mean())
 
     z4 = theta3 @ a3 + bias3
-    a4 = vsigmoid((z4 - z4.std()) / z4.mean())
+    a4 = sigmoid((z4 - z4.std()) / z4.mean())
 
     z5 = theta4 @ a4 + bias4
-    a5 = vsigmoid((z5 - z5.std()) / z5.mean())
+    a5 = sigmoid((z5 - z5.std()) / z5.mean())
 
     a = (a1, a2, a3, a4, a5)
     thetas = (theta1, theta2, theta3, theta4)

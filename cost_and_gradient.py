@@ -22,7 +22,8 @@ import feed_forward
 
 
 def cost(h, y):
-    j = (np.nan_to_num(y * np.log(h)) + np.nan_to_num((1 - y) * np.log(1 - h))).mean()
+    m, n = h.shape
+    j = (y * np.nan_to_num(np.log(h)) + (y - 1) * np.nan_to_num(np.log(1 - h))).sum() / m
     # j = ((h - y) ** 2).mean() / 2
     return j
 
