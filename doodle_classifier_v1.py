@@ -9,16 +9,16 @@ from gradient_descent import gradient_descent
 from cost_and_gradient import cost_and_gradient_two
 
 # Load Train set
-X = np.load('./train/Xv1.npy')
-Y = np.load('./train/Yv1.npy')
+X = np.load('./train/train/x.npy')
+Y = np.load('./train/train/y.npy')
 
 theta1Size = (16, 784)
 theta1Len = theta1Size[0] * theta1Size[1]
 
-theta2Size = (16, 16)
+theta2Size = (14, 16)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (10, 16)
+theta3Size = (10, 14)
 theta3Len = theta3Size[0] * theta3Size[1]
 
 theta4Size = (10, 10)
@@ -33,7 +33,7 @@ t3 = np.random.uniform(low=0, high=1, size=theta3Len).reshape(theta3Size)
 t4 = np.random.uniform(low=0, high=1, size=theta4Len).reshape(theta4Size)
 # Bias
 b1 = np.ones(16).reshape((16, 1))
-b2 = np.ones(16).reshape((16, 1))
+b2 = np.ones(14).reshape((14, 1))
 b3 = np.ones(10).reshape((10, 1))
 b4 = np.ones(10).reshape((10, 1))
 

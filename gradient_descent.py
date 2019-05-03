@@ -12,10 +12,10 @@ norm = lambda v: ((v ** 2.0).sum()) ** 0.5
 theta1Size = (16, 784)
 theta1Len = theta1Size[0] * theta1Size[1]
 
-theta2Size = (16, 16)
+theta2Size = (14, 16)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (10, 16)
+theta3Size = (10, 14)
 theta3Len = theta3Size[0] * theta3Size[1]
 
 theta4Size = (10, 10)

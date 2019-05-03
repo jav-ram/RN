@@ -5,29 +5,41 @@ import PIL.ImageOps
 
 import random
 
-from feed_forward import feed_forward_two
-from gradient_descent import gradient_descent
-from cost_and_gradient import cost_and_gradient_two
+# from feed_forward import feed_forward_two
+# from gradient_descent import gradient_descent
+# from cost_and_gradient import cost_and_gradient_two
+#
+# # Load Variables set
+# theta = np.load('./dwv1.npy')
+# bias = np.load('./dbv1.npy')
+#
+# # Load Test
+# k = np.asarray(cv2.imread('./out/House/1.jpg')).ravel()
+#
+# if k.shape[0] != 784:
+#     k = cv2.resize(k, (int(28), int(28)))
+# b = (np.array(k).ravel() / 256).reshape(1, 784)
+#
+# r = feed_forward_two(
+#     b,
+#     theta[0],
+#     theta[1],
+#     theta[2],
+#     bias[0],
+#     bias[1],
+# )
+#
+#
+# print(r[0])
 
-# Load Variables set
-theta = np.load('./dwv1.npy')
-bias = np.load('./dbv1.npy')
+print(np.load('./train/train/x.npy').shape)
+print(np.load('./train/train/y.npy').shape)
+print()
 
-# Load Test
-k = np.asarray(cv2.imread('./out/House/1.jpg')).ravel()
+print(np.load('./train/test/x.npy').shape)
+print(np.load('./train/test/y.npy').shape)
+print()
 
-if k.shape[0] != 784:
-    k = cv2.resize(k, (int(28), int(28)))
-b = (np.array(k).ravel() / 256).reshape(1, 784)
-
-r = feed_forward_two(
-    b,
-    theta[0],
-    theta[1],
-    theta[2],
-    bias[0],
-    bias[1],
-)
-
-
-print(r[0])
+print(np.load('./train/validate/x.npy').shape)
+print(np.load('./train/validate/y.npy').shape)
+print()
