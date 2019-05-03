@@ -52,22 +52,22 @@ def gradient_descent(
             bias[1] - beta * gradient_b[1],
         )
 
-        # r1 = feed_forward_two(
-        #     X,
-        #     theta[0],
-        #     theta[1],
-        #     theta[2],
-        #     bias[0],
-        #     bias[1],
-        # )
-        # # print(r1[0].T[0])
-        # print()
-        # print(np.argmax(r1[0].T[0].T))
-        # print(np.argmax(r1[0].T[1001].T))
-        # print(np.argmax(r1[0].T[2002].T))
-        # print(np.argmax(r1[0].T[3003].T))
-        # print(np.argmax(r1[0].T[4003].T))
-        # print(np.argmax(r1[0].T[5003].T))
+        r1 = feed_forward_two(
+            X,
+            theta[0],
+            theta[1],
+            theta[2],
+            bias[0],
+            bias[1],
+        )
+        # print(r1[0].T[0])
+        print()
+        print((r1[0].T[0].T))
+        print((r1[0].T[1001].T))
+        print((r1[0].T[2002].T))
+        print((r1[0].T[3003].T))
+        print((r1[0].T[4003].T))
+        print((r1[0].T[5003].T))
 
         np.abs(cost) == np.inf or print(abs(cost), norm(cost_and_gradient(X, y, theta, bias, Dw)[-1]))
 

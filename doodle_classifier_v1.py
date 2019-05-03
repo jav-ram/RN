@@ -51,8 +51,8 @@ theta, bias = gradient_descent(
     (t1, t2, t3),
     (b1, b2),
     cost_and_gradient_two,
-    alpha=0.0001,
-    beta=0.05,
+    alpha=0.00001,
+    beta=0.005,
     threshold=5,
     max_iter=10000
 )
