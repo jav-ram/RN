@@ -6,7 +6,8 @@ def sigmoid(x):
 
 
 def softmax(x):
-    return np.log(1. + np.exp(x))
+    e_x = np.exp(x)
+    return e_x / e_x.sum()
 
 
 def relu(x):
@@ -27,6 +28,7 @@ def alpha(x):
 valpha = np.vectorize(alpha)
 
 vsigmoid = np.vectorize(sigmoid)
+vrelu = np.vectorize(relu)
 
 
 def feed_forward(X, theta1, theta2, bias1, bias2):
@@ -46,32 +48,27 @@ def feed_forward(X, theta1, theta2, bias1, bias2):
     return a3, a, thetas, biases
 
 
-def feed_forward_two(X, theta1, theta2, theta3, bias1, bias2, debug=False):
-    a1 = X.T
+def feed_forward_two(X, theta1, theta2, theta3, theta4, bias1, bias2, bias3, bias4):
+    a1 = (X.T - X.T.std()) / X.mean()
 
-    # z2 = np.matmul(theta1, a1)
-    # a2 = vsigmoid((z2 - z2.min()) / 50000)
-    #
-    # z3 = np.matmul(theta2, a2)
-    # a3 = vsigmoid(z3 - z3.min() + bias1)
-    #
-    # z4 = np.matmul(theta3, a3)
-    # a4 = vsigmoid(z4 - z4.min() + bias2)
+    z2 = theta1 @ a1 + bias1
 
-    z2 = np.matmul(theta1, a1)
-    a2 = np.tanh(z2 / 500000)
+    a2 = vrelu((z2 - z2.std()) / z2.mean())
 
-    z3 = np.matmul(theta2, a2)
-    a3 = np.tanh(z3 + bias1)
+    z3 = theta2 @ a2 + bias2
+    a3 = vrelu((z3 - z3.std()) / z3.mean())
 
-    z4 = np.matmul(theta3, a3)
-    a4 = sigmoid(z4 + bias2)
+    z4 = theta3 @ a3 + bias3
+    a4 = vrelu((z4 - z4.std()) / z4.mean())
 
-    a = (a1, a2, a3, a4)
-    thetas = (theta1, theta2, theta3)
-    biases = (bias1, bias2)
+    z5 = theta4 @ a4 + bias4
+    a5 = vsigmoid((z5 - z5.std()) / z5.mean())
 
-    return a4, a, thetas, biases
+    a = (a1, a2, a3, a4, a5)
+    thetas = (theta1, theta2, theta3, theta4)
+    biases = (bias1, bias2, bias3, bias4)
+
+    return a5, a, thetas, biases
 
 
 def feed_forward_three(X, theta1, theta2, theta3, theta4):

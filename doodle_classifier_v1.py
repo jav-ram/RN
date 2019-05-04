@@ -9,27 +9,36 @@ from gradient_descent import gradient_descent
 from cost_and_gradient import cost_and_gradient_two
 
 # Load Train set
-X = np.load('./train/Xv1.npy')
-Y = np.load('./train/Yv1.npy')
+X = np.load('./train/train/x.npy')
+Y = np.load('./train/train/y.npy')
 
-theta1Size = (14, 784)
+# theta = np.load('theta.npy')
+# bias = np.load('bias.npy')
+
+theta1Size = (24, 784)
 theta1Len = theta1Size[0] * theta1Size[1]
 
-theta2Size = (10, 14)
+theta2Size = (20, 24)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (10, 10)
+theta3Size = (16, 20)
 theta3Len = theta3Size[0] * theta3Size[1]
 
-thetasLen = theta1Len + theta2Len + theta3Len
+theta4Size = (10, 16)
+theta4Len = theta4Size[0] * theta4Size[1]
+
+thetasLen = theta1Len + theta2Len + theta3Len + theta4Len
 
 # Thetas
-t1 = np.random.uniform(low=0, high=1, size=theta1Len).reshape(theta1Size)
-t2 = np.random.uniform(low=0, high=1, size=theta2Len).reshape(theta2Size)
-t3 = np.random.uniform(low=0, high=1, size=theta3Len).reshape(theta3Size)
+theta1 = np.random.uniform(low=0, high=1, size=theta1Len).reshape(theta1Size)
+theta2 = np.random.uniform(low=0, high=1, size=theta2Len).reshape(theta2Size)
+theta3 = np.random.uniform(low=0, high=1, size=theta3Len).reshape(theta3Size)
+theta4 = np.random.uniform(low=0, high=1, size=theta4Len).reshape(theta4Size)
 # Bias
-b1 = random.random()
-b2 = random.random()
+bias1 = np.random.uniform(low=0, high=1, size=24).reshape((24, 1))
+bias2 = np.random.uniform(low=0, high=1, size=20).reshape((20, 1))
+bias3 = np.random.uniform(low=0, high=1, size=16).reshape((16, 1))
+bias4 = np.random.uniform(low=0, high=1, size=10).reshape((10, 1))
 
 # theta = np.load('dw.npy')
 # bias = np.load('db.npy')
@@ -48,17 +57,17 @@ b2 = random.random()
 theta, bias = gradient_descent(
     X,
     Y,
-    (t1, t2, t3),
-    (b1, b2),
+    (theta1, theta2, theta3, theta4),
+    (bias1, bias2, bias3, bias4),
     cost_and_gradient_two,
-    alpha=0.00001,
-    beta=0.005,
-    threshold=5,
+    alpha=0.1,
+    threshold=30,
     max_iter=10000
 )
 
-np.save('dwv1', theta)
-np.save('dbv1', bias)
+
+np.save('theta', theta)
+np.save('bias', bias)
 
 # theta = np.load('dw.npy')
 # bias = np.load('db.npy')
