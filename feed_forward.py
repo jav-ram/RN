@@ -48,27 +48,24 @@ def feed_forward(X, theta1, theta2, bias1, bias2):
     return a3, a, thetas, biases
 
 
-def feed_forward_two(X, theta1, theta2, theta3, theta4, bias1, bias2, bias3, bias4):
-    a1 = (X.T - X.T.std()) / X.mean()
+def feed_forward_two(X, theta1, theta2, theta3, bias1, bias2, bias3):
+    a1 = X.T
 
     z2 = theta1 @ a1 + bias1
 
-    a2 = vrelu((z2 - z2.std()) / z2.mean())
+    a2 = vsigmoid((z2 - z2.std()) / z2.mean())
 
     z3 = theta2 @ a2 + bias2
-    a3 = vrelu((z3 - z3.std()) / z3.mean())
+    a3 = vsigmoid((z3 - z3.std()) / z3.mean())
 
     z4 = theta3 @ a3 + bias3
-    a4 = vrelu((z4 - z4.std()) / z4.mean())
+    a4 = vsigmoid((z4 - z4.std()) / z4.mean())
 
-    z5 = theta4 @ a4 + bias4
-    a5 = vsigmoid((z5 - z5.std()) / z5.mean())
+    a = (a1, a2, a3, a4,)
+    thetas = (theta1, theta2, theta3)
+    biases = (bias1, bias2, bias3)
 
-    a = (a1, a2, a3, a4, a5)
-    thetas = (theta1, theta2, theta3, theta4)
-    biases = (bias1, bias2, bias3, bias4)
-
-    return a5, a, thetas, biases
+    return a4, a, thetas, biases
 
 
 def feed_forward_three(X, theta1, theta2, theta3, theta4):

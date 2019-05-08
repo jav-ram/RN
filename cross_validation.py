@@ -22,70 +22,34 @@ def get_accuracy(h, y):
 
     return r.sum() / len(r)
 
+def print_accuracy(type, theta, bias):
+    # load data
+    x = np.load('./train/' + type + '/x.npy')
+    y = np.load('./train/' + type + '/y.npy')
+    # feed forward
+    r = feed_forward_two(
+        x,
+        theta[0],
+        theta[1],
+        theta[2],
+        bias[0],
+        bias[1],
+        bias[2],
+    )
+    # accuracy
+    h = get_answer(r[0].T)
+    y_answer = get_answer(y)
+    print(type + '\t', get_accuracy(h, y_answer))
 
 # load thetas and bias
 theta = np.load('./theta.npy')
 bias = np.load('./bias.npy')
 
 # TRAIN
-# load data
-x_train = np.load('./train/train/x.npy')
-y_train = np.load('./train/train/y.npy')
-# feed forward
-r = feed_forward_two(
-    x_train,
-    theta[0],
-    theta[1],
-    theta[2],
-    theta[3],
-    bias[0],
-    bias[1],
-    bias[2],
-    bias[3],
-)
-# accuracy
-h_train_answer = get_answer(r[0].T)
-y_train_answer = get_answer(y_train)
-print(get_accuracy(h_train_answer, y_train_answer))
+print_accuracy('train', theta, bias)
 
 # TEST
-# load data
-x_test = np.load('./train/test/x.npy')
-y_test = np.load('./train/test/y.npy')
-# feed forward
-r = feed_forward_two(
-    x_test,
-    theta[0],
-    theta[1],
-    theta[2],
-    theta[3],
-    bias[0],
-    bias[1],
-    bias[2],
-    bias[3],
-)
-# accuracy
-h_test_answer = get_answer(r[0].T)
-y_test_answer = get_answer(y_test)
-print(get_accuracy(h_test_answer, y_test_answer))
+print_accuracy('test', theta, bias)
 
 # VALIDATE
-# load data
-x_val = np.load('./train/validate/x.npy')
-y_val = np.load('./train/validate/y.npy')
-# feed forward
-r = feed_forward_two(
-    x_val,
-    theta[0],
-    theta[1],
-    theta[2],
-    theta[3],
-    bias[0],
-    bias[1],
-    bias[2],
-    bias[3],
-)
-# accuracy
-h_val_answer = get_answer(r[0].T)
-y_val_answer = get_answer(y_val)
-print(get_accuracy(h_val_answer, y_val_answer))
+print_accuracy('val', theta, bias)

@@ -21,24 +21,24 @@ theta1Len = theta1Size[0] * theta1Size[1]
 theta2Size = (20, 24)
 theta2Len = theta2Size[0] * theta2Size[1]
 
-theta3Size = (16, 20)
+theta3Size = (10, 20)
 theta3Len = theta3Size[0] * theta3Size[1]
 
-theta4Size = (10, 16)
-theta4Len = theta4Size[0] * theta4Size[1]
+# theta4Size = (10, 16)
+# theta4Len = theta4Size[0] * theta4Size[1]
 
-thetasLen = theta1Len + theta2Len + theta3Len + theta4Len
+thetasLen = theta1Len + theta2Len + theta3Len # + theta4Len
 
 # Thetas
-theta1 = np.random.uniform(low=0, high=1, size=theta1Len).reshape(theta1Size)
-theta2 = np.random.uniform(low=0, high=1, size=theta2Len).reshape(theta2Size)
-theta3 = np.random.uniform(low=0, high=1, size=theta3Len).reshape(theta3Size)
-theta4 = np.random.uniform(low=0, high=1, size=theta4Len).reshape(theta4Size)
+theta1 = (np.random.uniform(low=0, high=1, size=theta1Len).reshape(theta1Size) * 2) - 1
+theta2 = (np.random.uniform(low=0, high=1, size=theta2Len).reshape(theta2Size) * 2) - 1
+theta3 = (np.random.uniform(low=0, high=1, size=theta3Len).reshape(theta3Size) * 2) - 1
+# theta4 = (np.random.uniform(low=0, high=1, size=theta4Len).reshape(theta4Size) * 2) - 1
 # Bias
 bias1 = np.random.uniform(low=0, high=1, size=24).reshape((24, 1))
 bias2 = np.random.uniform(low=0, high=1, size=20).reshape((20, 1))
-bias3 = np.random.uniform(low=0, high=1, size=16).reshape((16, 1))
-bias4 = np.random.uniform(low=0, high=1, size=10).reshape((10, 1))
+bias3 = np.random.uniform(low=0, high=1, size=10).reshape((10, 1))
+# bias4 = np.random.uniform(low=0, high=1, size=10).reshape((10, 1))
 
 # theta = np.load('dw.npy')
 # bias = np.load('db.npy')
@@ -57,12 +57,12 @@ bias4 = np.random.uniform(low=0, high=1, size=10).reshape((10, 1))
 theta, bias = gradient_descent(
     X,
     Y,
-    (theta1, theta2, theta3, theta4),
-    (bias1, bias2, bias3, bias4),
+    (theta1, theta2, theta3),
+    (bias1, bias2, bias3),
     cost_and_gradient_two,
     alpha=0.1,
-    threshold=30,
-    max_iter=10000
+    threshold=0.0001,
+    max_iter=50
 )
 
 
