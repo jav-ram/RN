@@ -62,12 +62,12 @@ theta, bias = gradient_descent(
     cost_and_gradient_two,
     alpha=0.1,
     threshold=0.0001,
-    max_iter=50
+    max_iter=300
 )
 
 
-np.save('theta', theta)
-np.save('bias', bias)
+np.save('theta1', theta)
+np.save('bias1', bias)
 
 # theta = np.load('dw.npy')
 # bias = np.load('db.npy')

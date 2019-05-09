@@ -41,6 +41,7 @@ def print_accuracy(type, theta, bias):
     y_answer = get_answer(y)
     print(type + '\t', get_accuracy(h, y_answer))
 
+
 # load thetas and bias
 theta = np.load('./theta.npy')
 bias = np.load('./bias.npy')
