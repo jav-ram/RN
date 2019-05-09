@@ -39,9 +39,9 @@ def may_d(L, a, y, thetas, D):  # 4 layer
 
     d = min_d(L, a, y, thetas)
 
-    Dc[0] = -(Dc[0] + np.dot(d[1], a[0].T)) / 7000
-    Dc[1] = -(Dc[1] + np.dot(d[2], a[1].T)) / 7000
-    Dc[2] = -(Dc[2] + np.dot(d[3], a[2].T)) / 7000
+    Dc[0] = -(D[0] + np.dot(d[1], a[0].T)) / 7000
+    Dc[1] = -(D[1] + np.dot(d[2], a[1].T)) / 7000
+    Dc[2] = -(D[2] + np.dot(d[3], a[2].T)) / 7000
 
     return (Dc[0], Dc[1], Dc[2])
 

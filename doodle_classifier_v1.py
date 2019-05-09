@@ -27,7 +27,7 @@ theta3Len = theta3Size[0] * theta3Size[1]
 # theta4Size = (10, 16)
 # theta4Len = theta4Size[0] * theta4Size[1]
 
-thetasLen = theta1Len + theta2Len + theta3Len # + theta4Len
+thetasLen = theta1Len + theta2Len + theta3Len  # + theta4Len
 
 # Thetas
 theta1 = (np.random.uniform(low=0, high=1, size=theta1Len).reshape(theta1Size) * 2) - 1
